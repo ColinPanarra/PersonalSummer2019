@@ -1,7 +1,0 @@
-Pong mostly based off of this link:https://thoughtbot.com/blog/pong-clone-in-javascript#getting-started
-
-
-Changed the game to be sidewise because that's how I feel the game is meant to be played.
-
-TODO: 
-finish adding scoreboard and add sound effects/soundtrack. 
