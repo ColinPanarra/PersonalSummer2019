@@ -42,11 +42,15 @@ function drawScore(){
   sContext.fillText(scoreText,50, 150);
 }
 
+
 //allows us to call the step function upon starting program
 window.onload = function() {
+   let theme = new sound("theme.mp3");
     document.body.appendChild(scoreboard);
     document.body.appendChild(canvas);
+
     animate(step);
+    theme.play();
 };
 
 
@@ -107,7 +111,8 @@ Paddle.prototype.move = function(x,y){
 
 
 Ball.prototype.update = function(paddle1,paddle2) {
-
+  let bounce = new sound("bounce.mp3");
+  let point = new sound("goal.mp3");
   this.x += this.x_speed;
   this.y += this.y_speed;
   var top_x = this.x - 5;
@@ -116,16 +121,21 @@ Ball.prototype.update = function(paddle1,paddle2) {
   var bottom_y = this.y + 5;
 
   if(this.y - 5 < 0){//hit top wall
+      bounce.play();
       this.y = 5;
       this.y_speed = -this.y_speed;
 
+
   }
   else if(this.y+5 > 400){//bottom wall
+    bounce.play();
     this.y= 395;
     this.y_speed = -this.y_speed;
+
   }
 
   if(this.x<0){
+    point.play();
     this.x_speed =-3;
     this.y_speed = 0;
     this.x = 300;
@@ -136,6 +146,7 @@ Ball.prototype.update = function(paddle1,paddle2) {
 
   }
   else if(this.x>600){
+    point.play();
     this.x_speed =3;
     this.y_speed = 0;
     this.x = 300;
@@ -258,7 +269,3 @@ function sound(src){
     this.sound.pause();
   }
 }
-
-var soundTrack;
-var point ;
-var hit ;
