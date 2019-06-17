@@ -15,7 +15,7 @@ var animate = window.requestAnimationFrame ||
 //sets up the canvas
 var scoreboard = document.createElement('canvas');
 scoreboard.width = 600;
-scoreboard.height = 100;
+scoreboard.height = 400;
 var sContext = scoreboard.getContext('2d');
 
 var canvas = document.createElement('canvas');
@@ -37,13 +37,13 @@ let computerScore  =0;
 function drawScore(){
   let text = " "
   sContext.font = "25px Arial";
-  sContext.fillText("Player Score:" + playerScore + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + "Computer Score: " + computerScore, 25,50 );
-
-
+  scoreText = "Player Score: " + playerScore + "                Computer Score: " + computerScore;
+  sContext.clearRect(0,0,600,600);
+  sContext.fillText(scoreText,50, 150);
 }
+
 //allows us to call the step function upon starting program
 window.onload = function() {
-
     document.body.appendChild(scoreboard);
     document.body.appendChild(canvas);
     animate(step);
@@ -54,7 +54,6 @@ window.onload = function() {
 //then it requests an animation frame to call step function again
 var step = function(){
   update();
-
   render();
   animate(step);
 };
@@ -63,10 +62,11 @@ var update = function(){
   ball.update(player.paddle, computer.paddle);
   player.update();
   computer.update(ball);
+  drawScore();
 
 };
 Computer.prototype.update = function(ball){
-  var y_pos = ball.y;
+  var y_pos = ball.y-1;
   var diff = -((this.paddle.y + this.paddle.height /2) - y_pos);
   if(diff<0 && diff <-4){diff = -5;}
   else if(diff >0 && diff > 4){diff=5;}
@@ -131,6 +131,8 @@ Ball.prototype.update = function(paddle1,paddle2) {
     this.x = 300;
     this.y = 200;
     computerScore++;
+    scoreText = ("Player Score: " + playerScore + "                Computer Score: " + computerScore);
+
 
   }
   else if(this.x>600){
@@ -139,6 +141,8 @@ Ball.prototype.update = function(paddle1,paddle2) {
     this.x = 300;
     this.y = 200;
     playerScore++;
+      scoreText =("Player Score: " + playerScore + "                Computer Score: " + computerScore);
+
   }
 
 if(top_x > 300) {
@@ -163,7 +167,7 @@ if(top_x > 300) {
 
 //gets our screen up and crakalakin'
 var render = function() {
-  drawScore();
+
 
   sContext.fillRect(0,0,600,5);
 
@@ -236,3 +240,25 @@ window.addEventListener("keyup", function(event){
   delete keysDown[event.keyCode];
 
 });
+
+///adding sound!
+
+//constructor
+function sound(src){
+  this.sound = document.createElement('audio');
+  this.sound.src=src;
+  this.sound.setAttribute("preload","auto");
+  this.sound.setAttribute("controls", "none");
+  this.sound.style.display = "none";
+  document.body.appendChild(this.sound);
+  this.play = function(){
+    this.sound.play();
+  }
+  this.stop = function(){
+    this.sound.pause();
+  }
+}
+
+var soundTrack;
+var point ;
+var hit ;
