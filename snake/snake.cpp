@@ -24,8 +24,12 @@ void Setup() {
 void Draw() {
 	//show the snake moving
 	char board[height][width]; 
-	std::cout << "####################"; 
+	//insert snake position and its tail to board as well as fruit
 
+	std::cout << "####################"; 
+	std::cout << " # " //first row + "#"; 
+						//repeat for all row
+	std::cout << "####################";
 
 }
 void Input() {
